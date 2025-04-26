@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'layouts/app.html' %}
 
-</body>
-</html>
+{% block content %}
+
+<h1>Dashboard : {{ request.user.username }}</h1>
+<a href="{% url 'logout' %}" class="btn btn-dark">Logout</a>
+
+
+{% endblock %}
