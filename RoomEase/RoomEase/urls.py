@@ -23,9 +23,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     # Admin site
     path('admin/', admin.site.urls),
-<<<<<<< Updated upstream
-    path('user/',include('accounts.urls')),
-=======
 
     # Accounts app (login, register, etc.)
     path('accounts/', include('accounts.urls')),
@@ -33,7 +30,6 @@ urlpatterns = [
     # Classrooms app
     path('', include('classrooms.urls')),
 
->>>>>>> Stashed changes
 ]
 
 if settings.DEBUG:
