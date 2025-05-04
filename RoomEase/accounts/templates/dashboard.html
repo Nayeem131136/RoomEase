@@ -1,9 +1,76 @@
 {% extends 'layouts/app.html' %}
+{% load static %}
 
 {% block content %}
 
-<h1>Dashboard : {{ request.user.username }}</h1>
-<a href="{% url 'logout' %}" class="btn btn-dark">Logout</a>
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+    }
 
+
+    .fullscreen-bg {
+        background-image: url("{% static 'img.png' %}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+    }
+
+    /* Navbar styling (adjust to match your existing navbar) */
+    .navbar {
+        background: rgba(0,0,0,0.7);
+        color: white;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .brand {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .logout-btn {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        background: rgba(255,255,255,0.2);
+        padding: 8px 15px;
+        border-radius: 4px;
+    }
+
+    .logout-btn:hover {
+        background: rgba(255,255,255,0.3);
+    }
+</style>
+
+  <div class="overlay"></div>
+    <div class="dashboard-container">
+        <h1 style="font-size: 40px;">Welcome to UAP RoomEase</h1>
+        <h3>Hurry! Book Available Empty Room!</h3>
+
+        <!-- Buttons stacked vertically -->
+        <button class="button">All Classrooms Schedule of CSE Department</button>
+        <button class="button">Available Empty Classroom</button>
+    </div>
+
+<!-- Fullscreen background content area -->
+<div class="content-wrapper">
+    <div class="fullscreen-bg"></div>
+
+    <!-- Your content here -->
+    <!-- <div class="content">...</div> -->
+</div>
 
 {% endblock %}
+
