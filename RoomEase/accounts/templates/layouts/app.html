@@ -1,10 +1,301 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>UAP RoomEase</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <!-- Add Font Awesome for social icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .navbar-brand-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .navbar-brand img {
+            height: 40px;
+        }
+
+        /* Professional Footer Styles */
+        .uap-footer {
+            background: linear-gradient(to right, #f8cdda, #1e90ff);
+            color: #2c3e50;
+            padding: 20px 0 10px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-top: 20px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .footer-section {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .footer-section h3 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .footer-section p {
+            margin-bottom: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .social-icons {
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background-color: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: #1e90ff;
+            transform: translateY(-3px);
+        }
+
+        .footer-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 15px;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .footer-col h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            border-bottom: 1px solid rgba(44, 62, 80, 0.2);
+            padding-bottom: 3px;
+            font-weight: bold;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 6px;
+        }
+
+        .footer-col a {
+            color: #2c3e50;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .footer-col a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        address {
+            font-style: normal;
+            line-height: 1.5;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        address b {
+            font-weight: 600;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 10px;
+            border-top: 1px solid rgba(44, 62, 80, 0.2);
+            margin-top: 10px;
+        }
+
+        .footer-bottom h6 {
+            margin: 5px 0;
+            font-size: 0.85rem;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .footer-bottom h6 a {
+            color: #2c3e50;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-bottom h6 a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        .copyright {
+            color: rgba(44, 62, 80, 0.8);
+            font-size: 0.75rem;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .footer-columns {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .footer-col {
+                min-width: 100%;
+            }
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            flex: 1;
+            padding-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
+
+<!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg" style="background: linear-gradient(to right, #f8cdda, #1e90ff);">
+    <a class="navbar-brand font-weight-bold text-dark" href="{% url 'dashboard' %}">UAP RoomEase</a>
+
+    <!-- Center Logo -->
+    <div class="navbar-brand-center">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'img_1.png' %}" alt="UAP Logo" class="img-fluid">
+        </a>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="{% url 'dashboard' %}"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="{% url 'logout' %}">Logout</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="{% url 'register' %}">Register</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+<!-- Navbar End -->
+
+<div class="container mt-3">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<!-- Updated Footer with Social Icons -->
+<footer class="uap-footer">
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3>DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING</h3>
+            <p>UNIVERSITY OF ASIA PACIFIC</p>
+            <div class="social-icons">
+                <a href="https://www.facebook.com/profile.php?id=100063885558266#" target="_blank" title="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://www.linkedin.com/company/uapbd/" target="_blank" title="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer-columns">
+            <div class="footer-col">
+                <h4></h4>
+                <ul>
+                    <li><a href="https://uap-bd.edu/Papers&Publications.php" target="_blank">Papers & Publications</a></li>
+                    <li><a href="https://uap-bd.edu/pressandmedia.php" target="_blank">UAP Media Release</a></li>
+                    <li><a href="https://ucam.uap-bd.edu/Security/LogIn.aspx" target="_blank">UCAM Login</a></li>
+                    <li><a href="https://ucam.uap-bd.edu/ConvocationLoginForm.aspx" target="_blank">Convocation Registration</a></li>
+                    <li><a href="https://www.turnitin.com/login_page.asp?err=3400&lang=en_us" target="_blank">Turnitin Login</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4></h4>
+                <ul>
+                    <li><a href="https://mail.google.com/mail/u/3/#inbox" target="_blank">UAP Webmail</a></li>
+                    <li><a href="https://alumni.uap-bd.edu/" target="_blank">Alumni Portal</a></li>
+                    <li><a href="https://www.baetebangladesh.org/register.html" target="_blank">IEB Accreditation</a></li>
+                    <li><a href="https://uap-bd.edu/vacancy/Vacancies.php" target="_blank">Vacancies</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>CONTACT</h4>
+                <address>
+                    Department Administrative Office,<br>
+                    Department of CSE<br>
+                    74/A, Green Road,<br>
+                    Dhaka - 1205, Bangladesh<br>
+                    <b>Phone:</b> +88-01601310283 [Shahiduzzaman Suza]<br>
+                    <b>Phone:</b> +88-01722388813 [Hosanul Kabir]<br>
+                    <b>Email:</b> dao.cse@uap-bd.edu
+                </address>
+            </div>
+        </div>
+
+         <div class="footer-bottom">
+    <h6>Developed by
+        <a href="https://nayeem131136.github.io/portfolio/" target="_blank" style="color: #007bff; font-weight: bold;">Md. Mahdi Hasan Nayeem</a>,
+        <a href="https://tandra136131.github.io/portfolio/" target="_blank" style="color: #007bff; font-weight: bold;">Rupasha Khan Tandra</a>,
+        <a href="https://rifah03.github.io/RifahTasfia/" target="_blank" style="color: #007bff; font-weight: bold;">Rifah Tasfia</a> &amp;
+        <a href="https://ankitahossain.github.io/Portfolio/" target="_blank" style="color: #007bff; font-weight: bold;">Ankita Hossain Anushka</a>
+    </h6>
+    <p class="copyright">© Copyright 2025 | <a href="https://cse.uap-bd.edu/" target="_blank" style="color: #007bff; font-weight: bold;">UAP-CSE</a> | All Rights Reserved</p>
+</div>
+
+
+</footer>
 
 </body>
 </html>
