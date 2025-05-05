@@ -1,10 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'layouts/app.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block content %}
+<style>
+    .dashboard-card {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+    }
+    .room-card {
+        transition: transform 0.3s;
+        border-left: 4px solid #1e90ff;
+    }
+    .room-card:hover {
+        transform: translateY(-5px);
+    }
+    .schedule-table th {
+        background: linear-gradient(to right, #f8cdda, #1e90ff);
+        color: white;
+    }
+    .badge-cancelled {
+        background-color: #dc3545;
+    }
+    .badge-available {
+        background-color: #28a745;
+    }
+</style>
+
+<div class="dashboard-card p-4">
+    <div class="text-center mb-4">
+        <h2 class="text-dark">Welcome, {{ request.user.get_full_name|default:request.user.username }}</h2>
+        <p class="lead text-muted">Manage classroom bookings efficiently</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card room-card mb-4">
+                <div class="card-body">
+                    <h4 class="card-title text-primary">
+                        <i class="fas fa-door-open"></i> Room R702
+                    </h4>
+                    <p class="card-text">
+                        <i class="fas fa-users"></i> Capacity: 50 students
+                    </p>
+                    <a href="{% url 'classrooms:room_schedule' 'R702' %}" class="btn btn-primary">
+                        View Full Schedule <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
