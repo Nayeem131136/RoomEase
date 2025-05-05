@@ -1,0 +1,63 @@
+{% extends 'layouts/app.html' %}
+{% load static %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-white">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">
+                <i class="fas fa-calendar-week"></i> {{ room.room_number }} Schedule
+            </h4>
+            <a href="{% url 'classrooms:dashboard' %}" class="btn btn-sm btn-outline-primary">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Time/Day</th>
+                        {% for slot in time_slots %}
+                            <th>{{ slot.start_time|time:"g:i" }}-{{ slot.end_time|time:"g:i" }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for day in days %}
+                    <tr>
+                        <td class="font-weight-bold">{{ day }}</td>
+                        {% for slot in time_slots %}
+                            <td class="text-center">
+                                {% if schedule_grid[day][slot.slot_number] %}
+                                    {% with schedule=schedule_grid[day][slot.slot_number].schedule %}
+                                    <div class="py-2">
+                                        <strong>{{ schedule.course_code }}</strong>
+                                        <div>{{ schedule.section }}</div>
+                                        {% if schedule.is_cancelled %}
+                                            <span class="badge badge-secondary mt-1">Cancelled</span>
+                                        {% elif request.user.is_staff %}
+                                            <a href="{% url 'classrooms:cancel_class' schedule.id %}"
+                                               class="btn btn-sm btn-outline-danger mt-1">
+                                               Cancel
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                    {% endwith %}
+                                {% else %}
+                                    <a href="{% url 'classrooms:request_booking' room.room_number day slot.id %}"
+                                       class="btn btn-sm btn-outline-success">
+                                       Book
+                                    </a>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %
