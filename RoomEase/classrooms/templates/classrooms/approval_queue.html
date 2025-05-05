@@ -1,0 +1,122 @@
+{% extends 'layouts/app.html' %}
+{% load static %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-info text-white">
+        <h4 class="mb-0">
+            <i class="fas fa-clipboard-check"></i> Approval Queue
+        </h4>
+    </div>
+    <div class="card-body">
+        <ul class="nav nav-tabs" id="approvalTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="bookings-tab" data-toggle="tab" href="#bookings">
+                    Booking Requests ({{ pending_bookings.count }})
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="cancellations-tab" data-toggle="tab" href="#cancellations">
+                    Cancellation Requests ({{ pending_cancellations.count }})
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content mt-3" id="approvalTabsContent">
+            <!-- Bookings Tab -->
+            <div class="tab-pane fade show active" id="bookings">
+                {% if pending_bookings %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Requester</th>
+                                <th>Room</th>
+                                <th>Day</th>
+                                <th>Time</th>
+                                <th>Reason</th>
+                                <th>Requested</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for booking in pending_bookings %}
+                            <tr>
+                                <td>{{ booking.requester.get_full_name|default:booking.requester.username }}</td>
+                                <td>{{ booking.room.room_number }}</td>
+                                <td>{{ booking.get_day_display }}</td>
+                                <td>{{ booking.time_slot.start_time|time:"g:i A" }}-{{ booking.time_slot.end_time|time:"g:i A" }}</td>
+                                <td>{{ booking.reason|truncatechars:50 }}</td>
+                                <td>{{ booking.created_at|timesince }} ago</td>
+                                <td>
+                                    <a href="{% url 'classrooms:process_booking_request' booking.id 'approve' %}"
+                                       class="btn btn-sm btn-success">
+                                       Approve
+                                    </a>
+                                    <a href="{% url 'classrooms:process_booking_request' booking.id 'reject' %}"
+                                       class="btn btn-sm btn-danger">
+                                       Reject
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    No pending booking requests.
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Cancellations Tab -->
+            <div class="tab-pane fade" id="cancellations">
+                {% if pending_cancellations %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Requester</th>
+                                <th>Class Details</th>
+                                <th>Reason</th>
+                                <th>Requested</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cancellation in pending_cancellations %}
+                            <tr>
+                                <td>{{ cancellation.requester.get_full_name|default:cancellation.requester.username }}</td>
+                                <td>
+                                    {{ cancellation.schedule.course_code }} {{ cancellation.schedule.section }}<br>
+                                    {{ cancellation.schedule.day }} {{ cancellation.schedule.time_slot }}<br>
+                                    Room {{ cancellation.schedule.room.room_number }}
+                                </td>
+                                <td>{{ cancellation.reason|truncatechars:50 }}</td>
+                                <td>{{ cancellation.created_at|timesince }} ago</td>
+                                <td>
+                                    <a href="{% url 'classrooms:process_cancellation' cancellation.id 'approve' %}"
+                                       class="btn btn-sm btn-success">
+                                       Approve
+                                    </a>
+                                    <a href="{% url 'classrooms:process_cancellation' cancellation.id 'reject' %}"
+                                       class="btn btn-sm btn-danger">
+                                       Reject
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    No pending cancellation requests.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
