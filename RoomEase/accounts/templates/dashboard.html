@@ -2,75 +2,52 @@
 {% load static %}
 
 {% block content %}
-
 <style>
-    body, html {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
+    .dashboard-card {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
     }
-
-
-    .fullscreen-bg {
-        background-image: url("{% static 'img.png' %}");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: -1;
+    .room-card {
+        transition: transform 0.3s;
+        border-left: 4px solid #1e90ff;
     }
-
-    /* Navbar styling (adjust to match your existing navbar) */
-    .navbar {
-        background: rgba(0,0,0,0.7);
+    .room-card:hover {
+        transform: translateY(-5px);
+    }
+    .schedule-table th {
+        background: linear-gradient(to right, #f8cdda, #1e90ff);
         color: white;
-        padding: 15px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
     }
-
-    .brand {
-        font-size: 24px;
-        font-weight: bold;
+    .badge-cancelled {
+        background-color: #dc3545;
     }
-
-    .logout-btn {
-        color: white;
-        text-decoration: none;
-        font-size: 16px;
-        background: rgba(255,255,255,0.2);
-        padding: 8px 15px;
-        border-radius: 4px;
-    }
-
-    .logout-btn:hover {
-        background: rgba(255,255,255,0.3);
+    .badge-available {
+        background-color: #28a745;
     }
 </style>
 
-  <div class="overlay"></div>
-    <div class="dashboard-container">
-        <h1 style="font-size: 40px;">Welcome to UAP RoomEase</h1>
-        <h3>Hurry! Book Available Empty Room!</h3>
-
-        <!-- Buttons stacked vertically -->
-        <button class="button">All Classrooms Schedule of CSE Department</button>
-        <button class="button">Available Empty Classroom</button>
+<div class="dashboard-card p-4">
+    <div class="text-center mb-4">
+        <h2 class="text-dark">Welcome, {{ request.user.get_full_name|default:request.user.username }}</h2>
+        <p class="lead text-muted">Manage classroom bookings efficiently</p>
     </div>
 
-<!-- Fullscreen background content area -->
-<div class="content-wrapper">
-    <div class="fullscreen-bg"></div>
-
-    <!-- Your content here -->
-    <!-- <div class="content">...</div> -->
-</div>
-
-{% endblock %}
-
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card room-card mb-4">
+                <div class="card-body">
+                    <h4 class="card-title text-primary">
+                        <i class="fas fa-door-open"></i> Room R702
+                    </h4>
+                    <p class="card-text">
+                        <i class="fas fa-users"></i> Capacity: 50 students
+                    </p>
+                    <a href="{% url 'classrooms:room_schedule' 'R702' %}" class="btn btn-primary">
+                        View Full Schedule <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
