@@ -51,3 +51,60 @@
             </div>
         </div>
     </div>
+    <div class="card mt-4">
+        <div class="card-header bg-white">
+            <h4 class="mb-0">
+                <i class="far fa-calendar-alt"></i> Today's Schedule ({{ today|date:"l, F j" }})
+            </h4>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Course</th>
+                            <th>Section</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for slot in todays_schedule %}
+                        <tr>
+                            <td>{{ slot.time_slot.start_time|time:"g:i A" }} - {{ slot.time_slot.end_time|time:"g:i A" }}</td>
+                            <td>{{ slot.course_code }}</td>
+                            <td>{{ slot.section }}</td>
+                            <td>
+                                {% if slot.is_booked %}
+                                    {% if slot.is_cancelled %}
+                                        <span class="badge badge-secondary">Cancelled</span>
+                                    {% else %}
+                                        <span class="badge badge-cancelled">Booked</span>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="badge badge-available">Available</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if slot.is_booked %}
+                                    {% if not slot.is_cancelled and request.user.is_staff %}
+                                        <a href="{% url 'classrooms:cancel_class' slot.id %}" class="btn btn-sm btn-warning">
+                                            <i class="fas fa-ban"></i> Cancel
+                                        </a>
+                                    {% endif %}
+                                {% else %}
+                                    <a href="{% url 'classrooms:request_booking' 'R702' slot.day slot.time_slot.id %}" class="btn btn-sm btn-success">
+                                        <i class="fas fa-bookmark"></i> Book
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
